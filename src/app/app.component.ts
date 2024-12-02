@@ -1,13 +1,30 @@
-import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { WeatherService } from './weather.service';
+import { firstValueFrom } from 'rxjs';
+import { GoogleMapsService } from './google-map.service';
 
 @Component({
   selector: 'app-root',
-  standalone: true,
-  imports: [RouterOutlet],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.css'
+  styleUrl: './app.component.css',
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   title = 'project';
+
+  constructor(
+    private weatherService: WeatherService,
+    private googleMapsService: GoogleMapsService
+  ) {}
+
+  async ngOnInit() {
+    // 動態載入 Google Maps API
+    this.googleMapsService.loadGoogleMapsApi();
+    try {
+      // console.log('first run');
+      const data = await firstValueFrom(this.weatherService.getApiData());
+      console.log('API data:', data);
+    } catch (err) {
+      console.error('Error fetching API data:', err);
+    }
+  }
 }

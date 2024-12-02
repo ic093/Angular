@@ -1,0 +1,7 @@
+.footer {
+  background-color: #fff7e9;
+  display: flex;
+  justify-content: end;
+  position: fixed; /* 固定位置 */
+  bottom: 0;
+}

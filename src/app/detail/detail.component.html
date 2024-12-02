@@ -1,0 +1,46 @@
+<div>
+  <h3>目前天氣:</h3>
+</div>
+<table class="table table-bordered">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+
+      <ng-container *ngFor="let th of th">
+        <th
+          scope="col"
+          [attr.colspan]="th.colspan"
+          [style.background-color]="th.backgroundColor"
+        >
+          {{ th.text }}: {{ th.value }}
+        </th>
+      </ng-container>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let row of rows">
+      <th scope="row">{{ row.type }}</th>
+      <td *ngFor="let data of row.data">{{ data }}</td>
+    </tr>
+  </tbody>
+</table>
+<table class="table table-bordered w-50">
+  <thead>
+    <tr>
+      <th
+        *ngFor="let headerstation of headerstations"
+        scope="col"
+        [attr.colspan]="headerstation.colspan"
+        [style.background-color]="headerstation.backgroundColor"
+      >
+        {{ headerstation.text }} {{ headerstation.value }}個
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let rowstation of rowstations">
+      <td>{{ rowstation.city }}</td>
+      <td>{{ rowstation.count }}</td>
+    </tr>
+  </tbody>
+</table>

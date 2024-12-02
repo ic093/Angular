@@ -1,0 +1,7 @@
+<div class="dash">
+  <div class="col-4 col-md-4" *ngFor="let item of item">
+    <div class="box">
+      <div [class]="item.class"><i [class]="item.icon"></i>{{ item.text }}</div>
+    </div>
+  </div>
+</div>

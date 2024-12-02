@@ -1,0 +1,73 @@
+<div class="modal-header">
+  <h4 class="modal-title">{{ station.StationName }} – 詳細資訊</h4>
+  <button
+    type="button"
+    class="btn-close"
+    (click)="activeModal.close()"
+  ></button>
+</div>
+<div class="modal-body">
+  <h5>基本資訊</h5>
+  <ul>
+    <li>氣象站編號: {{ station.StationId }}</li>
+    <li>氣象站名稱: {{ station.StationName }}</li>
+  </ul>
+  <h5>位置資訊</h5>
+  <ul>
+    <li>所在縣市: {{ station.GeoInfo.CountyName }}</li>
+    <li>所在鄉鎮市區: {{ station.GeoInfo.TownName }}</li>
+  </ul>
+  <!-- google map -->
+  <div style="height: 400px; margin-bottom: 20px">
+    <google-map
+      [center]="mapCenter"
+      [zoom]="zoom"
+      [options]="mapOptions"
+    ></google-map>
+  </div>
+  <h5>天氣資訊</h5>
+  <ul>
+    <li>天氣: {{ station.WeatherElement.Weather }}</li>
+    <li>風向: {{ station.WeatherElement.WindDirection }}</li>
+    <li>風速: {{ station.WeatherElement.WindSpeed }}</li>
+    <li>氣溫: {{ station.WeatherElement.AirTemperature }}</li>
+    <li>氣壓: {{ station.WeatherElement.AirPressure }}</li>
+    <li>
+      當日最高溫:
+      {{
+        station.WeatherElement.DailyExtreme.DailyHigh.TemperatureInfo
+          .AirTemperature
+      }}°C
+    </li>
+    <li>
+      發生時間:
+      {{
+        formatDate(
+          station.WeatherElement.DailyExtreme.DailyHigh.TemperatureInfo
+            .Occurred_at.DateTime
+        )
+      }}
+    </li>
+    <li>
+      當日最低溫:
+      {{
+        station.WeatherElement.DailyExtreme.DailyLow.TemperatureInfo
+          .AirTemperature
+      }}°C
+    </li>
+    <li>
+      發生時間:
+      {{
+        formatDate(
+          station.WeatherElement.DailyExtreme.DailyLow.TemperatureInfo
+            .Occurred_at.DateTime
+        )
+      }}
+    </li>
+  </ul>
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-secondary" (click)="activeModal.close()">
+    關閉
+  </button>
+</div>

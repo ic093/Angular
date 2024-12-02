@@ -1,0 +1,89 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-12 col-md-3">
+      <label for="city" class="text">縣市</label>
+      <select
+        class="form-select form-select-lg mb-3"
+        id="city"
+        [(ngModel)]="selectedCity"
+        (change)="onCityChange()"
+        aria-label=".form-select-lg example"
+      >
+        <option value="" disabled selected>請選擇</option>
+        <option *ngFor="let city of city" [value]="city">{{ city }}</option>
+      </select>
+    </div>
+  </div>
+</div>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-12 col-md-3">
+      <label for="town" class="text">鄉鎮市區</label>
+      <select
+        class="form-select form-select-sm"
+        aria-label=".form-select-sm example"
+        id="town"
+        [(ngModel)]="selectedTown"
+        [disabled]="!town.length"
+      >
+        <option value="" disabled selected>請選擇</option>
+        <option *ngFor="let town of town" [value]="town">{{ town }}</option>
+      </select>
+    </div>
+  </div>
+</div>
+<div class="container-fluid mt-3">
+  <div class="row">
+    <div class="col-12 col-md-3">
+      <div class="form-actions btns">
+        <button (click)="onSearch()" class="btn btn-primary">查詢</button>
+        <button (click)="onReset()" class="btn btn-secondary">重置</button>
+      </div>
+    </div>
+  </div>
+</div>
+<h1>氣象清單</h1>
+<!-- 定義 ng-template -->
+
+<!-- <ng-template #demoNg let-row="row"> </ng-template> -->
+
+<div class="container-fluid mt-3">
+  <div class="row">
+    <div class="w-50">
+      <table
+        datatable
+        [dtOptions]="dtOptions"
+        [dtTrigger]="dtTrigger"
+        class="row-border hover"
+      ></table>
+    </div>
+  </div>
+</div>
+
+<!-- <table
+  /* datatable: 
+     - 是 Angular DataTables 提供的指令。
+     - 啟用 DataTables 的功能，例如分頁、排序、搜尋、響應式設計等。
+     - 必須與 [dtOptions] 和 [dtTrigger] 一起使用來配置和控制表格行為。
+  */
+  datatable
+
+  /* [dtOptions]: 
+     - 綁定 DataTables 的配置選項。
+     - 定義表格的行為和顯示內容，例如分頁類型、每頁顯示行數、資料來源、欄位對應等。
+  */
+  [dtOptions]="dtOptions"
+
+  /* [dtTrigger]: 
+     - 綁定 RxJS 的 Subject，用於手動觸發 DataTables 的初始化或更新。
+     - 當資料改變時，調用 dtTrigger.next(null) 通知 DataTables 更新表格。
+  */
+  [dtTrigger]="dtTrigger"
+
+  /* class="row-border hover":
+     - row-border: 為每行添加邊框，讓行之間的區分更明顯。
+     - hover: 當滑鼠懸停於某行時，高亮顯示該行。
+     - 提升表格的可視性與用戶體驗。
+  */
+  class="row-border hover"
+></table> -->

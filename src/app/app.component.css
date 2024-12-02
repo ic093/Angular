@@ -1,0 +1,7 @@
+.container-fluid {
+  padding-left: 0px;
+  padding-right: 0px;
+}
+.section1 {
+  box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.3);
+}
