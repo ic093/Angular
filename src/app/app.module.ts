@@ -15,12 +15,7 @@ import { DataTablesModule } from 'angular-datatables';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { GoogleMapsModule } from '@angular/google-maps';
 import { WeatherDetailModalComponent } from './weather-detail-modal/weather-detail-modal.component';
-
-//設定路由
-const routes: Routes = [
-  { path: '', component: HomeComponent },
-  { path: 'weather-search', component: WeatherSearchComponent },
-];
+import { AppRoutingModule } from './app-routing.module';
 
 @NgModule({
   declarations: [
@@ -35,7 +30,7 @@ const routes: Routes = [
   ],
   imports: [
     BrowserModule,
-    RouterModule.forRoot(routes), // 設定路由
+    AppRoutingModule,
     FormsModule,
     DataTablesModule,
     NgbModule,
