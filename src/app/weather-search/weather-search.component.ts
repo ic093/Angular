@@ -4,7 +4,7 @@ import {
   AfterViewInit,
   ViewChild,
   OnDestroy,
-  Renderer2,
+  Renderer2, //無法操作Datable
 } from '@angular/core';
 import { WeatherService } from '../weather.service';
 import { DataTableDirective } from 'angular-datatables';
@@ -25,12 +25,12 @@ export class WeatherSearchComponent
   @ViewChild(DataTableDirective, { static: false })
   dtElement!: DataTableDirective;
   dtOptions: any = {};
-  dtTrigger: Subject<any> = new Subject<any>();
+  dtTrigger: Subject<any> = new Subject<any>(); //用來觸發 DataTable，數據發送，因為是動態的，所以要用Subject
   city: string[] = [];
   town: string[] = [];
   selectedTown: string = '';
   selectedCity: string = '';
-  weatherStations: any[] = [];
+  weatherStations: any[] = []; //存放表格內容的數據
 
   constructor(
     private weatherService: WeatherService,
@@ -39,6 +39,7 @@ export class WeatherSearchComponent
   ) {}
   ngOnInit(): void {
     this.dtOptions = {
+      //設定
       pagingType: 'full_numbers', // 顯示完整分頁按鈕
       pageLength: 25, // 每頁顯示 25 筆資料
       responsive: true,
@@ -59,7 +60,12 @@ export class WeatherSearchComponent
         {
           title: '查看明細',
           data: null,
-          render: (data: any, type: any, row: any) =>
+          render: (
+            data: any,
+            type: any,
+            row: any //表示所有的數據
+            //動態生成按鈕
+          ) =>
             `<button class="btn btn-dark view-detail" data-id="${row.StationId}">查看明細</button>`,
         },
       ],
@@ -76,17 +82,21 @@ export class WeatherSearchComponent
   onCityChange(): void {
     this.weatherService.getTownByCity(this.selectedCity).subscribe((town) => {
       // selectedCity在html的<select>的[(ngModel)]="selectedCity"，雙向綁定
+      //接收已選擇的縣市，返回相對應得鄉鎮
       this.town = town;
       this.selectedTown = '';
+      // 每當切換縣市時，要求用戶重新選擇對應的鄉鎮。
     });
   }
   //開始生成動態視窗
   ngAfterViewInit(): void {
-    this.dtTrigger.next(null);
+    this.dtTrigger.next(null); //觸發 DataTables初始化
     $(document).on('click', '.view-detail', (event) => {
-      const stationId = $(event.target).data('id');
+      //監聽表格中 .view-detail 類的按鈕點擊事件，取按鈕的 data-id
+      const stationId = $(event.target).data('id'); //提取目標按鈕的 data-id
       const station = this.weatherStations.find(
-        (i) => i.StationId === stationId
+        //用 StationId 在 weatherStations 陣列中查找對應的資料。
+        (i) => i.StationId === stationId //出 weatherStations 中 StationId 等於按鈕 data-id 的項目
       );
       if (station) {
         this.openModal(station);
@@ -103,7 +113,6 @@ export class WeatherSearchComponent
             console.log('找不到');
             return;
           }
-
           this.weatherStations = stations;
           await this.rerender(); // 更新表格
         },
@@ -120,7 +129,7 @@ export class WeatherSearchComponent
         return;
       }
       dtInstance.clear(); // 清空
-      dtInstance.rows.add(this.weatherStations); // 加入資料
+      dtInstance.rows.add(this.weatherStations); // 匯入資料
       dtInstance.draw(); // 重新繪製表格
     } catch (error) {
       console.error('err', error);

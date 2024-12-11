@@ -5,8 +5,12 @@ import { WeatherSearchComponent } from './weather-search/weather-search.componen
 
 //設定路由
 const routes: Routes = [
-  { path: '', component: HomeComponent },
-  { path: 'weather-search', component: WeatherSearchComponent },
+  { path: 'home', title: '首頁', component: HomeComponent },
+  {
+    path: 'weather-search',
+    title: '天氣站查詢',
+    component: WeatherSearchComponent,
+  },
 ];
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

@@ -1,1 +1,35 @@
 /* You can add global styles to this file, and also import other style files */
+.loader-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9;
+}
+
+.loader {
+  width: 48px;
+  height: 48px;
+  border: 5px solid #ddd;
+  border-bottom-color: #666;
+  border-radius: 50%;
+  animation: rotation 1s linear infinite;
+}
+
+@keyframes rotation {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.loader-hide {
+  display: none;
+}

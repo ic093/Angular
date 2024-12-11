@@ -20,7 +20,6 @@ export class AppComponent implements OnInit {
     // 動態載入 Google Maps API
     this.googleMapsService.loadGoogleMapsApi();
     try {
-      // console.log('first run');
       const data = await firstValueFrom(this.weatherService.getApiData());
       console.log('API data:', data);
     } catch (err) {

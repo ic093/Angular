@@ -14,8 +14,9 @@ export class WeatherService {
   constructor(public http: HttpClient, public datePipe: DatePipe) {}
   private apiDataSubject = new BehaviorSubject<any>(null);
   public apiData = this.apiDataSubject.asObservable();
+
   getApiData(): Observable<any> {
-    console.log('call api');
+    // console.log('call api');
     const data = this.http.get<any>(this.weatherUrl).pipe(
       //loading畫面
       delay(300),
@@ -36,6 +37,7 @@ export class WeatherService {
         // 取 AirTemperature
         const temperatures: number[] = stations
           .map((station: any) => {
+            //array
             const airTemperature = station.WeatherElement.AirTemperature;
             if (airTemperature) {
               return parseFloat(airTemperature);
@@ -159,7 +161,7 @@ export class WeatherService {
         }
         //找出最高溫;
         let maxTempLocation = {
-          temperature: 0,
+          temperature: 0, //比較值
           countyName: '',
           obsTime: '',
         };
@@ -170,7 +172,7 @@ export class WeatherService {
         }
         //找出最低溫
         let lowTempLocation = {
-          temperature: Infinity,
+          temperature: Infinity, //比較值
           countyName: '',
           obsTime: '',
         };
@@ -309,11 +311,12 @@ export class WeatherService {
       map((data) => {
         const stations = data.records.Station;
         if (stations.length === 0) {
-          console.log('無資料');
+          // console.log('無資料');
           return [];
         }
         //計算各縣市的氣象站數量
         const cityCount: { [city: string]: number } = {};
+        //是一個物件（key-value 對），key 是縣市名稱，value 是該縣市的氣象站數量。
         for (let i = 0; i < stations.length; i++) {
           const station = stations[i];
           const city = station.GeoInfo.CountyName;
@@ -324,8 +327,10 @@ export class WeatherService {
             }
             cityCount[city]++; //若是有重複的縣市，數量會累加
           }
-          console.log('縣市的氣象站', city, cityCount[city]);
+          // console.log('縣市的氣象站', city, cityCount[city]);
         }
+        //將物件轉為陣列，每個元素是一個 [key, value]：
+        //變成每一個元素是一個物件，包含縣市及數量
         return Object.entries(cityCount).map(([city, count]) => ({
           city,
           count,
@@ -342,6 +347,7 @@ export class WeatherService {
         stations.forEach((station: any) => {
           const countyName = station.GeoInfo.CountyName;
           if (countyName && noRepectCity.indexOf(countyName) === -1) {
+            //檢查 countyName 是否 不在 陣列中
             noRepectCity.push(countyName);
           }
         });
@@ -365,14 +371,14 @@ export class WeatherService {
       })
     );
   }
-  //返回根據縣市和鄉鎮市區篩選的氣象站列表
+  //選出符合條件的站點
   getStationsByFilter(
     selectedCity: string,
     selectedTown: string
   ): Observable<any[]> {
     return this.apiData.pipe(
       map((data) => {
-        console.log('API 資料測試:', data);
+        // console.log('API 資料測試:', data);
         const stations = data.records.Station;
         return stations.filter((station: any) => {
           const cityMath = station.GeoInfo.CountyName === selectedCity; //縣市匹配

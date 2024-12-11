@@ -1,9 +1,15 @@
-import { Observable } from 'rxjs';
+// import { lowTemperature } from './../weather.module';
 import { Component, OnInit } from '@angular/core';
 import { WeatherService } from '../weather.service';
-import { ThModule, RowsModule, RowstationsModule } from '../weather.module'; //try WeatherModule
-import { delay, finalize } from 'rxjs/operators';
-import { firstValueFrom } from 'rxjs';
+import {
+  ThModule,
+  RowsModule,
+  RowstationsModule,
+  maxTemperature,
+  lowTemperature,
+  MaxWindSpeed,
+  LowWindSpeed,
+} from '../weather.module'; //try WeatherModule
 
 @Component({
   selector: 'app-detail',
@@ -23,16 +29,8 @@ export class DetailComponent implements OnInit {
   public averageWindSpeed: number = 0; //平均風速
   public temperature: {
     //最高溫度、最低溫度
-    maxTemperature: {
-      temperature: number;
-      countyName: string;
-      obsTime: string;
-    };
-    lowTemperature: {
-      temperature: number;
-      countyName: string;
-      obsTime: string;
-    };
+    maxTemperature: maxTemperature;
+    lowTemperature: lowTemperature;
   } = {
     maxTemperature: {
       temperature: 0,
@@ -46,16 +44,9 @@ export class DetailComponent implements OnInit {
     },
   };
   public windSpeed: {
-    maxWindSpeed: {
-      windSpeed: number;
-      countyName: string;
-      obsTime: string;
-    };
-    lowWindSpeed: {
-      windSpeed: number;
-      countyName: string;
-      obsTime: string;
-    };
+    maxWindSpeed: MaxWindSpeed;
+
+    lowWindSpeed: LowWindSpeed;
   } = {
     maxWindSpeed: {
       windSpeed: 0,
